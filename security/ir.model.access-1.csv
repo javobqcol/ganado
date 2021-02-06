@@ -1,0 +1,5 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+gv_an_user,gv_an_user,model_animal,ganado_group_user,1,1,1,1
+gv_ra_user,gv_ra_user,model_raza,ganado_group_user,1,1,1,1
+gv_pa_user,gv_pa_user,model_partos,ganado_group_user,1,1,1,1
+gv_pr_user,gv_pr_user,model_produccion,ganado_group_user,1,1,1,1

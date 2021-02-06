@@ -1,0 +1,312 @@
+<odoo>
+   <record id="ganado_animales_view_form" model="ir.ui.view">
+      <field name="name">ganado.animales.view.form</field>
+      <field name="model">animal</field>
+      <field name="arch" type="xml">
+        <form string="Animales">
+          <sheet>
+            <div class="oe_title">
+              <label for="name" class="oe_edit_only"/>
+              <h1>
+                 <field name="name"/>
+              </h1>
+              <label for="code" class="oe_edit_only"/>
+              <h2>
+                 <field name="code"/>
+              </h2>
+            </div>
+            <group>
+              <group>
+                <label for="nacimiento"/>
+                <div class="o_row">
+                  <field name="nacimiento"/>
+                  <field name="edad" readonly="1"/>
+                </div>
+                <field name="raza"/>
+                <field name="sexo"/>
+              </group>
+              <group>
+                <field name="madre_id"/>
+                <field name="padre_id"/>
+                <field name="estado"/>
+              </group>
+            </group>
+            <field nolabel="1"
+                   name="observaciones"
+                   placeholder="Escriba aqui cualquier otra info" />
+          </sheet>
+        </form>
+      </field>
+    </record>
+
+   <record id="ganado_animales_view_tree" model="ir.ui.view">
+      <field name="name">ganado.animal.tree</field>
+      <field name="model">animal</field>
+      <field name="arch" type="xml">
+        <tree string="Animales" decoration-muted="estado in ('enfermo', 'muerto', 'sacrificado')">
+          <field name="name"/>
+          <field name="code"/>
+          <field name="nacimiento"/>
+          <field name="edad"/>
+          <field name="raza"/>
+          <field name="sexo"/>
+          <field name="madre_id"/>
+          <field name="padre_id"/>
+          <field name="estado"/>
+        </tree>
+      </field>
+    </record>
+    <!-- actions opening views on models -->
+
+   <record id="ganado_animal_action" model="ir.actions.act_window">
+      <field name="name">Registro de animales</field>
+      <field name="res_model">animal</field>
+      <field name="view_mode">tree,form</field>
+      <field name="help" type="html">
+        <p class="o_view_nocontent_smiling_face">
+          Ingrese un nuevo animal
+        </p><p>
+          Rastree todos los animales.
+        </p>
+      </field>
+   </record>
+
+   <menuitem id="ganado_root"
+             name="Ganado"
+             sequence="3"/>
+
+   <menuitem action="ganado_animal_action"
+             parent="ganado_root"
+             name="Animales"
+             id="ganado_animal_menu"/>
+
+   <record id="ganado_partos_view_tree" model="ir.ui.view">
+      <field name="name">ganado.partos.tree</field>
+      <field name="model">partos</field>
+      <field name="arch" type="xml">
+        <tree string="Partos" editable="top">
+          <field name="cria_id"/>
+          <field name="peso_cria"/>
+          <field name="peso_vaca"/>
+          <field name="estado"/>
+          <field name="observaciones"/>
+        </tree>
+      </field>
+    </record>
+    <!-- actions opening views on models -->
+
+   <record id="ganado_partos_action" model="ir.actions.act_window">
+      <field name="name">Registro de partos</field>
+      <field name="res_model">partos</field>
+      <field name="view_mode">tree</field>
+      <field name="help" type="html">
+        <p class="o_view_nocontent_smiling_face">
+          Ingrese un nuevo animal
+        </p><p>
+          Rastree todos los animales.
+        </p>
+      </field>
+   </record>
+
+   <menuitem action="ganado_partos_action"
+             parent="ganado_root"
+             name="Partos"
+             id="ganado_partos_menu"/>
+
+   <record id="ganado_produccion_view_tree" model="ir.ui.view">
+      <field name="name">ganado.produccion.tree</field>
+      <field name="model">produccion</field>
+      <field name="arch" type="xml">
+        <tree string="Producción">
+          <field name="lote_id"/>
+          <field name="date" readonly="1"/>
+          <field name="turno" readonly="1"/>
+          <field name="parto_id"/>
+          <field name="produccion"/>
+        </tree>
+      </field>
+    </record>
+
+
+    <!-- actions opening views on models -->
+
+   <record id='ganado_produccion_view_pivot' model='ir.ui.view'>
+      <field name="name">ganado.produccion.pivot</field>
+      <field name="model">produccion</field>
+        <field name="arch" type="xml">
+          <pivot string="Producción" default_order="produccion desc">
+            <field name="parto_id" type="row"/>
+             <field name="turno" type="row"/>
+            <field name="date" interval="day" type="col"/>
+            <field name="produccion" string="Total" type="measure" />
+          </pivot>
+        </field>
+   </record>
+
+   <record id="ganado_produccion_view_graph" model="ir.ui.view">
+     <field name="name">ganado.produccion.graph</field>
+     <field name="model">produccion</field>
+     <field name="arch" type="xml">
+        <graph string="Producción">
+          <field name="date" type="row"/>
+          <field name="turno" type="row"/>
+          <field name="produccion" string="Total" type="measure" />
+        </graph>
+      </field>
+    </record>
+
+   <record id='ganado_produccion_view_search' model='ir.ui.view'>
+      <field name="name">ganado.produccion.search</field>
+      <field name="model">produccion</field>
+      <field name="arch" type="xml">
+        <search string="Produccion" >
+          <field name="parto_id"/>
+          <field name="lote_id"/>
+          <field name="date"/>
+          <field name="turno"/>
+          <group expand="1" string="Agrupado por">
+            <filter icon="terp-go-week" string="Ultimos 7 dias" name="date"
+ domain="[('date','&gt;=',( datetime.date.today()-datetime.timedelta(days=6)).strftime('%%Y-%m-%d'))]"/>
+            <filter name="groupby_parto_id"
+                    string="Animal/Cria"
+                    context="{'group_by': 'parto_id'}"/>
+            <filter name="groupby_fecha"
+                    string="Fecha"
+                    context="{'group_by': 'date:day'}" />
+            <filter name="groupby_lote"
+                    string="Lote"
+                    context="{'group_by': 'lote_id'}"/>
+            <filter name="groupby_turno"
+                    string="Turno"
+                    context="{'group_by': 'turno'}"/>
+          </group>
+        </search>
+      </field>
+    </record>
+
+
+
+   <record id="ganado_produccion_action" model="ir.actions.act_window">
+      <field name="name">Registro de producción</field>
+      <field name="res_model">produccion</field>
+      <field name="view_mode">tree,pivot,graph</field>
+      <field name="search_view_id" ref="ganado_produccion_view_search"/>
+      <field name="help" type="html">
+        <p class="o_view_nocontent_smiling_face">
+          Ingrese un nueva  produccion
+        </p><p>
+          Rastree toda la produccion.
+        </p>
+      </field>
+   </record>
+
+   <menuitem action="ganado_produccion_action"
+             parent="ganado_root"
+             name="Produccion"
+             id="ganado_produccion_menu"/>
+
+   <record id="ganado_lote_view_form" model="ir.ui.view">
+     <field name="name">ganado.lote.form</field>
+     <field name="model">lote</field>
+     <field name="arch" type="xml">
+       <form string="Animales">
+         <sheet>
+           <div class="oe_title">
+             <label for="name" readonly="1" class="oe_edit_only"/>
+             <h1>
+               <field name="name"/>
+             </h1>
+           </div>
+           <group>
+             <group>
+               <field name="date"/>
+               <field name="turno"/>
+               <field name="reportado" readonly="1" force_save="1"/>
+             </group>
+             <group>
+
+               <field name="recibo"/>
+               <field name="recibido"/>
+               <field name="diferencia" readonly="1" force_save="1"/>
+             </group>
+             <separator string="Nota interna" colspan="4"/>
+             <field name="note" nolabel="1" placeholder="Espacio para notas internas..."/>
+           </group>
+           <field name="produccion_ids">
+             <tree string="Produccion" editable="top">
+               <field name="turno" readonly="1"/>
+               <field name="parto_id"/>
+               <field name="produccion"/>
+             </tree>
+            </field>
+         </sheet>
+       </form>
+     </field>
+   </record>
+
+   <record id="ganado_lote_view_tree" model="ir.ui.view">
+     <field name="name">ganado.lote.tree</field>
+     <field name="model">lote</field>
+     <field name="arch" type="xml">
+       <tree string="Animales" decoration-danger="(diferencia &lt; 0.0)">
+          <field name="name"/>
+          <field name="date"/>
+          <field name="turno"/>
+          <field name="reportado" readonly="1"/>
+          <field name="recibo"/>
+          <field name="recibido"/>
+          <field name="diferencia"/>
+          <field name="note"/>
+       </tree>
+     </field>
+   </record>
+
+
+   <record id='ganado_lote_view_search' model='ir.ui.view'>
+      <field name="name">ganado.lote.search</field>
+      <field name="model">lote</field>
+      <field name="arch" type="xml">
+        <search string="Lote" >
+          <field name="name"/>
+          <field name="date"/>
+          <field name="turno"/>
+          <field name="note"/>
+        </search>
+      </field>
+    </record>
+
+    <record id='ganado_lote_view_pivot' model='ir.ui.view'>
+      <field name="name">ganado.lote.pivot</field>
+      <field name="model">lote</field>
+        <field name="arch" type="xml">
+          <pivot string="Lote" default_order="name desc">
+             <field name="turno" type="row"/>
+            <field name="date" interval="day" type="col"/>
+            <field name="recibido" string="Recibido " type="measure" />
+            <field name="reportado" string="Reportado" type="measure" />
+            <field name="diferencia" string="Diferencia" type="measure" />
+          </pivot>
+        </field>
+   </record>
+
+   <record id="ganado_lote_action" model="ir.actions.act_window">
+      <field name="name">Registro de lotes de produccion</field>
+      <field name="res_model">lote</field>
+      <field name="view_mode">tree,form,pivot</field>
+      <field name="search_view_id" ref="ganado_lote_view_search"/>
+      <field name="help" type="html">
+        <p class="o_view_nocontent_smiling_face">
+          Ingrese un nuevo lote de produccion
+        </p><p>
+          Rastree todos los lotes.
+        </p>
+      </field>
+   </record>
+
+   <menuitem action="ganado_lote_action"
+             parent="ganado_root"
+             name="Lotes"
+             id="ganado_lotes_menu"/>
+
+
+</odoo>

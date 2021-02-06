@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <data>
+
+<!--    <record id="ganado_group_user" model="res.groups">-->
+<!--      <field name="name">Usuario</field>-->
+<!--      <field name="category_id" ref="base.module_category_human_resources_ganado"/>-->
+<!--    </record>-->
+
+<!--    <record model="ir.ui.menu" id="ganado_root">-->
+<!--      <field name="groups_id" eval="[(4, ref('ganado_group_user'))]"/>-->
+<!--    </record>-->
+
+<!--    <record model="ir.ui.menu" id="ganado_animales">-->
+<!--      <field name="groups_id" eval="[(4, ref('ganado_group_user'))]"/>-->
+<!--    </record>-->
+<!--    -->
+
+  </data>
+</odoo>

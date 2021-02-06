@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <data noupdate="0">
+    <record id="seq_ganado_lote_log" model="ir.sequence">
+      <field name="name">Lote sequence</field>
+      <field name="code">ganado.lote.sequence</field>
+      <field name="prefix">Lote-</field>
+      <field name="padding">4</field>
+    </record>
+  </data>
+</odoo>
+
