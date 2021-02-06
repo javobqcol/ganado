@@ -22,7 +22,7 @@
                   <field name="nacimiento"/>
                   <field name="edad" readonly="1"/>
                 </div>
-                <field name="raza"/>
+                <field name="raza_id"/>
                 <field name="sexo"/>
               </group>
               <group>
@@ -48,8 +48,9 @@
           <field name="code"/>
           <field name="nacimiento"/>
           <field name="edad"/>
-          <field name="raza"/>
+          <field name="raza_id"/>
           <field name="sexo"/>
+
           <field name="madre_id"/>
           <field name="padre_id"/>
           <field name="estado"/>
@@ -57,11 +58,41 @@
       </field>
     </record>
     <!-- actions opening views on models -->
-
+   <record id='ganado_animal_view_search' model='ir.ui.view'>
+      <field name="name">ganado.animal.search</field>
+      <field name="model">animal</field>
+      <field name="arch" type="xml">
+        <search string="animal">
+          <field name="name"/>
+          <field name="code"/>
+          <field name="nacimiento"/>
+          <field name="raza_id"/>
+          <field name="sexo"/>
+          <field name="madre_id"/>
+          <field name="padre_id"/>
+          <field name="estado"/>
+          <group expand="1" string="Agrupado por">
+            <filter name="groupby_raza_id"
+                    string="Raza"
+                    context="{'group_by': 'raza_id'}"/>
+            <filter name="groupby_sexo"
+                    string="Sexo"
+                    context="{'group_by': 'sexo'}"/>
+            <filter name="groupby_padre_id"
+                    string="Padre"
+                    context="{'group_by': 'padre_id'}"/>
+            <filter name="groupby_madre_id"
+                    string="Madre"
+                    context="{'group_by': 'madre_id'}"/>
+          </group>
+        </search>
+      </field>
+    </record>
    <record id="ganado_animal_action" model="ir.actions.act_window">
       <field name="name">Registro de animales</field>
       <field name="res_model">animal</field>
       <field name="view_mode">tree,form</field>
+      <field name="search_view_id" ref="ganado_animal_view_search"/>
       <field name="help" type="html">
         <p class="o_view_nocontent_smiling_face">
           Ingrese un nuevo animal
@@ -95,10 +126,22 @@
     </record>
     <!-- actions opening views on models -->
 
+    <record id='ganado_partos_view_search' model='ir.ui.view'>
+      <field name="name">ganado.partos.search</field>
+      <field name="model">partos</field>
+      <field name="arch" type="xml">
+        <search string="Partos" >
+          <field name="cria_id"/>
+          <field name="estado"/>
+        </search>
+      </field>
+    </record>
+
    <record id="ganado_partos_action" model="ir.actions.act_window">
       <field name="name">Registro de partos</field>
       <field name="res_model">partos</field>
       <field name="view_mode">tree</field>
+      <field name="search_view_id" ref="ganado_partos_view_search"/>
       <field name="help" type="html">
         <p class="o_view_nocontent_smiling_face">
           Ingrese un nuevo animal
@@ -308,5 +351,49 @@
              name="Lotes"
              id="ganado_lotes_menu"/>
 
+  <record id="ganado_palpacion_view_tree" model="ir.ui.view">
+      <field name="name">ganado.palpacion.tree</field>
+      <field name="model">palpacion</field>
+      <field name="arch" type="xml">
+        <tree string="Palpacion" editable="top">
+          <field name="date"/>
+          <field name="animal_id"/>
+          <field name="tiempo_gest"/>
+          <field name="tiempo"/>
+        </tree>
+      </field>
+    </record>
+    <!-- actions opening views on models -->
+
+    <record id='ganado_palpacion_view_search' model='ir.ui.view'>
+      <field name="name">ganado.palpacion.search</field>
+      <field name="model">palpacion</field>
+      <field name="arch" type="xml">
+        <search string="Palapacion">
+          <field name="date"/>
+          <field name="animal_id"/>
+          <field name="tiempo"/>
+        </search>
+      </field>
+    </record>
+
+   <record id="ganado_palpacion_action" model="ir.actions.act_window">
+      <field name="name">Registro de palpacines</field>
+      <field name="res_model">palpacion</field>
+      <field name="view_mode">tree</field>
+      <field name="search_view_id" ref="ganado_palpacion_view_search"/>
+      <field name="help" type="html">
+        <p class="o_view_nocontent_smiling_face">
+          Ingrese un nuevo registro de palpacion
+        </p><p>
+          Rastree todos los registros de palpaciones.
+        </p>
+      </field>
+   </record>
+
+   <menuitem action="ganado_palpacion_action"
+             parent="ganado_root"
+             name="Palpaciones"
+             id="ganado_palpacion_menu"/>
 
 </odoo>

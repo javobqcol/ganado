@@ -4,3 +4,4 @@ gv_ra_user,gv_ra_user,model_raza,,1,1,1,1
 gv_pa_user,gv_pa_user,model_partos,,1,1,1,1
 gv_pr_user,gv_pr_user,model_produccion,,1,1,1,1
 gv_lo_user,gv_lo_user,model_lote,,1,1,1,1
+gv_plp_user,gv_plp_user,model_palpacion,,1,1,1,1

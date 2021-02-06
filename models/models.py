@@ -9,9 +9,9 @@ class Animal(models.Model):
     _description = 'Tabla descritiva del ganado vacuno'
 
     name = fields.Char(string='Nombre del animal')
-    code = fields.Char(string='Codigo animal')
+    code = fields.Char(string='Código animal')
     nacimiento = fields.Date(string='Fecha nacimiento')
-    raza = fields.Many2one('raza', 'Raza', ondelete="restrict")
+    raza_id = fields.Many2one('raza', 'Raza', ondelete='restrict')
     madre_id = fields.Many2one('animal',
         'Madre',
         domain="[('sexo','=','hembra')]",
@@ -20,7 +20,8 @@ class Animal(models.Model):
     padre_id = fields.Many2one('animal',
         'Padre',
         domain="[('sexo','=','macho')]",
-        ondelete="restrict")
+        ondelete='restrict',
+        options={"'no_create_edit': True, 'no_quick_create' : True"})
     peso_adulto = fields.Float(string='Peso del anima adulto')
     sexo = fields.Selection([('macho', 'Macho'),
                              ('hembra', 'Hembra')],
@@ -174,3 +175,25 @@ class Lote(models.Model):
             vals['name'] = self.env['ir.sequence'].next_by_code('ganado.lote.sequence') or _('New')
             result = super(Lote, self).create(vals)
         return (result)
+
+
+class Palpacion(models.Model):
+    _name = 'palpacion'
+    _order = 'animal_id, date desc, tiempo_gest desc'
+
+    date = fields.Date(string='Fecha Palpación')
+    animal_id = fields.Many2one('animal',
+        'Animal',
+        domain="[('sexo','=','hembra')]",
+        ondelete="restrict",
+        options={"'no_create_edit': True, 'no_quick_create' : True"})
+    tiempo_gest = fields.Integer(string='Tiempo gestacion')
+    tiempo = fields.Char(string='Tiempo', compute='_compute_time')
+
+    @api.depends('tiempo_gest')
+    def _compute_time(self):
+        self.tiempo=False
+        for rec in self:
+            pass
+
+
