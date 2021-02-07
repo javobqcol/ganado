@@ -22,12 +22,12 @@
                   <field name="nacimiento"/>
                   <field name="edad" readonly="1"/>
                 </div>
-                <field name="raza_id"/>
+                <field name="raza_id" options="{'no_create_edit': True, 'no_quick_create' : True}"/>
                 <field name="sexo"/>
               </group>
               <group>
-                <field name="madre_id"/>
-                <field name="padre_id"/>
+                <field name="madre_id" options="{'no_create_edit': True, 'no_quick_create' : True}"/>
+                <field name="padre_id" options="{'no_create_edit': True, 'no_quick_create' : True}"/>
                 <field name="estado"/>
               </group>
             </group>
@@ -116,7 +116,7 @@
       <field name="model">partos</field>
       <field name="arch" type="xml">
         <tree string="Partos" editable="top">
-          <field name="cria_id"/>
+          <field name="cria_id" options="{'no_create_edit': True, 'no_quick_create' : True}"/>
           <field name="peso_cria"/>
           <field name="peso_vaca"/>
           <field name="estado"/>
@@ -357,7 +357,7 @@
       <field name="arch" type="xml">
         <tree string="Palpacion" editable="top">
           <field name="date"/>
-          <field name="animal_id"/>
+          <field name="animal_id" options="{'no_create_edit': True, 'no_quick_create' : True}"/>
           <field name="tiempo_gest"/>
           <field name="tiempo"/>
         </tree>

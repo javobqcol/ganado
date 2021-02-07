@@ -8,20 +8,18 @@ class Animal(models.Model):
     _name = 'animal'
     _description = 'Tabla descritiva del ganado vacuno'
 
-    name = fields.Char(string='Nombre del animal')
+    name = fields.Char(string='Nombre del animal', required=True)
     code = fields.Char(string='Código animal')
     nacimiento = fields.Date(string='Fecha nacimiento')
     raza_id = fields.Many2one('raza', 'Raza', ondelete='restrict')
     madre_id = fields.Many2one('animal',
         'Madre',
         domain="[('sexo','=','hembra')]",
-        ondelete="restrict",
-        options={"'no_create_edit': True, 'no_quick_create' : True"})
+        ondelete="restrict")
     padre_id = fields.Many2one('animal',
         'Padre',
         domain="[('sexo','=','macho')]",
-        ondelete='restrict',
-        options={"'no_create_edit': True, 'no_quick_create' : True"})
+        ondelete='restrict')
     peso_adulto = fields.Float(string='Peso del anima adulto')
     sexo = fields.Selection([('macho', 'Macho'),
                              ('hembra', 'Hembra')],
@@ -79,8 +77,7 @@ class Partos(models.Model):
     cria_id = fields.Many2one('animal',
         'Cria',
         ondelete="restrict",
-        required=True,
-        options={"'no_create_edit': True, 'no_quick_create' : True"})
+        required=True)
     peso_cria = fields.Float(string='peso de la cria al momento de nacer')
     peso_vaca = fields.Float(string='Peso de la vaca al momento de parir')
     estado = fields.Selection([('activo', 'Activo'),
@@ -116,7 +113,7 @@ class Produccion(models.Model):
         domain="[('estado','=','activo')]",
         ondelete="restrict",
         required=True,
-        options={"'no_create_edit': True, 'no_quick_create' : True"})
+        options="{'no_create_edit': True, 'no_quick_create' : True}")
     turno = fields.Selection(related='lote_id.turno', string='Turno', store=True)
     produccion = fields.Float(String='Producción')
     produccion_avg = fields.Float(compute='_produccion', store=True, group_operator="avg")
@@ -181,12 +178,11 @@ class Palpacion(models.Model):
     _name = 'palpacion'
     _order = 'animal_id, date desc, tiempo_gest desc'
 
-    date = fields.Date(string='Fecha Palpación')
+    date = fields.Date(string='Fecha Palpación', required=True)
     animal_id = fields.Many2one('animal',
         'Animal',
         domain="[('sexo','=','hembra')]",
-        ondelete="restrict",
-        options={"'no_create_edit': True, 'no_quick_create' : True"})
+        ondelete="restrict")
     tiempo_gest = fields.Integer(string='Tiempo gestacion')
     tiempo = fields.Char(string='Tiempo', compute='_compute_time')
 
@@ -194,6 +190,6 @@ class Palpacion(models.Model):
     def _compute_time(self):
         self.tiempo=False
         for rec in self:
-            pass
-
-
+            meses = int(rec.tiempo_gest/30)
+            dias = rec.tiempo_gest - meses * 30
+            rec.tiempo = "[ %s - %s ]"% (meses or 0, dias or 0)
