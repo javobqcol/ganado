@@ -179,7 +179,6 @@
         <field name="arch" type="xml">
           <pivot string="Producción" default_order="produccion desc">
             <field name="parto_id" type="row"/>
-             <field name="turno" type="row"/>
             <field name="date" interval="day" type="col"/>
             <field name="produccion" string="Total" type="measure" />
           </pivot>
