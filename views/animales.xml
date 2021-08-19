@@ -16,15 +16,15 @@
               </h2>
             </div>
             <notebook>
-                <group>
-                    <page string="Datos generales" >
+                <page string="Datos generales" >
+                    <group>
                         <group>
                             <label for="nacimiento"/>
                             <div class="o_row">
                                 <field name="nacimiento"/>
                                 <field name="edad" readonly="1"/>
                             </div>
-                            <field name="raza_id" options="{'no_create_edit': True, 'no_quick_create' : True}"/>
+                            <field name="raza_id"/>
                             <field name="sexo"/>
                             <field name="fecha_gestacion"/>
                             <field name="dias_gestacion"/>
@@ -37,17 +37,17 @@
                         <field nolabel="1"
                                name="observaciones"
                                placeholder="Escriba aqui cualquier otra info" />
-                    </page>
-                    <page string="Imagenes ">
-                        <field name="multi_images" widget="image_multi">
-                            <tree editable="bottom">
-                                <field name="image"/>
-                                <field name="description"/>
-                                <field name="title"/>
-                            </tree>
-                      </field>
-                    </page>
-                </group>
+                    </group>
+                </page>
+                <page string="Imagenes ">
+                    <field name="multi_images" widget="image_multi">
+                        <tree editable="bottom">
+                            <field name="image"/>
+                            <field name="description"/>
+                            <field name="title"/>
+                        </tree>
+                    </field>
+                </page>
             </notebook>
           </sheet>
         </form>
