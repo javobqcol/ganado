@@ -32,7 +32,8 @@ class Animal(models.Model):
                               ('preñada', 'Preñada'),
                               ('vendido', 'Vendido'),
                               ('sacrificado', 'Sacrificado'),
-                              ('muerto', 'Muerto')],
+                              ('muerto', 'Muerto'),
+                              ('externo','Externo')],
         string='Estado del animal',
         default='activo',
         help='Estado del animal',
@@ -40,10 +41,20 @@ class Animal(models.Model):
     contadorpartos = fields.Integer(string='contador de partos')
     observaciones = fields.Text(string='Observaciones')
     edad = fields.Char(string='Edad', compute='_compute_age')
+    fecha_gestacion = fields.Date(string="Fecha gestacion")
+    dias_gestacion = fields.Integer(String='Dias Gestación', compute='_days_gestation')
+    multi_images = fields.One2many('multi.images', 'animal_id',
+                                   'Multi Imagenes')
 
+    @api.depends('fecha_gestacion')
+    def _days_gestation(self):
+        for rec in self:
+            rec.dias_gestacion = False
+            if rec.fecha_gestacion:
+                delta = date.today() - rec.fecha_gestacion
+                rec.dias_gestacion = delta.days
     @api.depends('nacimiento')
     def _compute_age(self):
-
         for rec in self:
             rec.edad = False
             if rec.nacimiento:
@@ -62,6 +73,9 @@ class Animal(models.Model):
                 res.append((field.id, '%s' % field.name))
         return res
 
+class MultiImages(models.Model):
+    _inherit = 'multi.images'
+    animal_id = fields.Many2one('animal', 'Animal')
 
 class Raza(models.Model):
     _name = 'raza'

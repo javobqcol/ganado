@@ -15,25 +15,40 @@
                  <field name="code"/>
               </h2>
             </div>
-            <group>
-              <group>
-                <label for="nacimiento"/>
-                <div class="o_row">
-                  <field name="nacimiento"/>
-                  <field name="edad" readonly="1"/>
-                </div>
-                <field name="raza_id" options="{'no_create_edit': True, 'no_quick_create' : True}"/>
-                <field name="sexo"/>
-              </group>
-              <group>
-                <field name="madre_id" options="{'no_create_edit': True, 'no_quick_create' : True}"/>
-                <field name="padre_id" options="{'no_create_edit': True, 'no_quick_create' : True}"/>
-                <field name="estado"/>
-              </group>
-            </group>
-            <field nolabel="1"
-                   name="observaciones"
-                   placeholder="Escriba aqui cualquier otra info" />
+            <notebook>
+                <group>
+                    <page string="Datos generales" >
+                        <group>
+                            <label for="nacimiento"/>
+                            <div class="o_row">
+                                <field name="nacimiento"/>
+                                <field name="edad" readonly="1"/>
+                            </div>
+                            <field name="raza_id" options="{'no_create_edit': True, 'no_quick_create' : True}"/>
+                            <field name="sexo"/>
+                            <field name="fecha_gestacion"/>
+                            <field name="dias_gestacion"/>
+                        </group>
+                        <group>
+                            <field name="madre_id" options="{'no_create_edit': True, 'no_quick_create' : True}"/>
+                            <field name="padre_id" options="{'no_create_edit': True, 'no_quick_create' : True}"/>
+                            <field name="estado"/>
+                        </group>
+                        <field nolabel="1"
+                               name="observaciones"
+                               placeholder="Escriba aqui cualquier otra info" />
+                    </page>
+                    <page string="Imagenes ">
+                        <field name="multi_images" widget="image_multi">
+                            <tree editable="bottom">
+                                <field name="image"/>
+                                <field name="description"/>
+                                <field name="title"/>
+                            </tree>
+                      </field>
+                    </page>
+                </group>
+            </notebook>
           </sheet>
         </form>
       </field>
@@ -207,7 +222,7 @@
           <field name="date"/>
           <field name="turno"/>
           <group expand="1" string="Agrupado por">
-            <filter icon="terp-go-week" string="Ultimos 7 dias" name="date"
+            <filter icon="terp-go-week" string="Ultimos 7 dias" name="filter_date"
  domain="[('date','&gt;=',( datetime.date.today()-datetime.timedelta(days=6)).strftime('%%Y-%m-%d'))]"/>
             <filter name="groupby_parto_id"
                     string="Animal/Cria"
@@ -394,5 +409,37 @@
              parent="ganado_root"
              name="Palpaciones"
              id="ganado_palpacion_menu"/>
+
+    <record id="ganado_last_7_days_action" model="ir.actions.act_window">
+      <field name="name">Produccion ultimos 7 dias</field>
+      <field name="res_model">produccion</field>
+      <field name="view_mode">pivot</field>
+      <field name="view_id"></field>  <!-- force empty -->
+      <field name="context">{"search_default_filter_
+          date" : True,}</field>
+      <field name="help" type="html">
+        <p class="o_view_nocontent_empty_folder">
+          No data for analysis
+        </p><p>
+          Odoo helps you managing the costs for your different vehicles
+          Costs are generally created from services and contract and appears here.
+        </p><p>
+          Thanks to the different filters, Odoo can only print the effective
+          costs, sort them by type and by vehicle.
+        </p>
+      </field>
+    </record>
+
+
+
+   <menuitem parent="ganado_root"
+             name="Reportes"
+             id="ganado_reportes_menu"/>
+
+   <menuitem id="menu_ganado_reporting_last_7_days"
+              name="Ultimos 7 dias"
+              parent="ganado_reportes_menu"
+              action="ganado_last_7_days_action"
+              sequence="1"/>
 
 </odoo>

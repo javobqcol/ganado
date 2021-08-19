@@ -18,7 +18,10 @@
 
 
     'depends': ['base',
-                'show_db_name'],
+                'show_db_name',
+                'web_widget_multi_image',
+                'report_xlsx',
+                'board'],
 
     'data': [
         'security/ganado_security.xml',
