@@ -131,6 +131,8 @@ class Produccion(models.Model):
     turno = fields.Selection(related='lote_id.turno', string='Turno', store=True)
     produccion = fields.Float(String='Producción')
     produccion_avg = fields.Float(compute='_produccion', store=True, group_operator="avg")
+    desecho = fields.Boolean(String="Desecho?", default=False)
+    motivo = fields.Char(String="Motivo")
 
     @api.depends('produccion')
     def _produccion(self):
@@ -171,7 +173,8 @@ class Lote(models.Model):
     @api.depends('produccion_ids.produccion')
     def _total_produccion_lote(self):
         for reg in self:
-            reg.reportado = sum(line.produccion for line in self.produccion_ids)
+            reg.reportado = sum(line.produccion for line in self.produccion_ids.search([('lote_id','=',self.name),
+                                                                                        ('desecho', '=', False)]))
 
     @api.depends('recibido', 'reportado')
     def _diferencia(self):
