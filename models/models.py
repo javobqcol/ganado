@@ -45,6 +45,11 @@ class Animal(models.Model):
     dias_gestacion = fields.Integer(String='Dias Gestación', compute='_days_gestation')
     multi_images = fields.One2many('multi.images', 'animal_id',
                                    'Multi Imagenes')
+    compra_id =fields.Many2one('res.partner', 'Comprado a:', ondelete='restrict')
+    fecha_compra = fields.Date(string="Fecha compra:")
+
+    venta_id =fields.Many2one('res.partner', 'Vendido a', ondelete='restrict')
+    fecha_venta= fields.Date(string="Fecha venta:")
 
     @api.depends('fecha_gestacion')
     def _days_gestation(self):
@@ -53,6 +58,7 @@ class Animal(models.Model):
             if rec.fecha_gestacion:
                 delta = date.today() - rec.fecha_gestacion
                 rec.dias_gestacion = delta.days
+
     @api.depends('nacimiento')
     def _compute_age(self):
         for rec in self:
@@ -173,7 +179,7 @@ class Lote(models.Model):
     @api.depends('produccion_ids.produccion')
     def _total_produccion_lote(self):
         for reg in self:
-            reg.reportado = sum(line.produccion for line in self.produccion_ids.search([('lote_id','=',self.name),
+            reg.reportado = sum(line.produccion for line in reg.produccion_ids.search([('lote_id','=',reg.name),
                                                                                         ('desecho', '=', False)]))
 
     @api.depends('recibido', 'reportado')
@@ -210,3 +216,6 @@ class Palpacion(models.Model):
             meses = int(rec.tiempo_gest/30)
             dias = rec.tiempo_gest - meses * 30
             rec.tiempo = "[ %s - %s ]"% (meses or 0, dias or 0)
+
+class ResPartner(models.Model):
+    _inherit = 'res.partner'

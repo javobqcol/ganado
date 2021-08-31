@@ -18,7 +18,7 @@
             <notebook>
                 <page string="Datos generales" >
                     <group>
-                        <group>
+                        <group string = "Vacuno">
                             <label for="nacimiento"/>
                             <div class="o_row">
                                 <field name="nacimiento"/>
@@ -26,14 +26,28 @@
                             </div>
                             <field name="raza_id"/>
                             <field name="sexo"/>
+                        </group>
+                        <group string = "Ascendencia">
+                            <field name="madre_id" options="{'no_create_edit': True, 'no_quick_create' : True}"/>
+                            <field name="padre_id" options="{'no_create_edit': True, 'no_quick_create' : True}"/>
+                        </group>
+                        <group string="Compra" >
+                            <field name="compra_id"/>
+                            <field name="fecha_compra"/>
+                        </group>
+                        <group string="Venta">
+                            <field name="venta_id"/>
+                            <field name="fecha_venta"/>
+                        </group>
+                        <group string="Gestación" attrs="{'invisible': [('sexo', '=', 'macho')]}">
                             <field name="fecha_gestacion"/>
                             <field name="dias_gestacion"/>
                         </group>
-                        <group>
-                            <field name="madre_id" options="{'no_create_edit': True, 'no_quick_create' : True}"/>
-                            <field name="padre_id" options="{'no_create_edit': True, 'no_quick_create' : True}"/>
+                        <group string="Estado">
                             <field name="estado"/>
                         </group>
+                    </group>
+                    <group string="Observaciones">
                         <field nolabel="1"
                                name="observaciones"
                                placeholder="Escriba aqui cualquier otra info" />
@@ -443,5 +457,31 @@
               parent="ganado_reportes_menu"
               action="ganado_last_7_days_action"
               sequence="1"/>
+
+
+<!--    <record model="ir.ui.view" id="view_partner_form">-->
+<!--      <field name="name">res.partner.form</field>-->
+<!--      <field name="model">res.partner</field>-->
+<!--      <field name="inherit_id" ref="base.view_partner_form"/>-->
+<!--      <field name="arch" type="xml">-->
+<!--      </field>-->
+<!--    </record>-->
+
+
+    <record id='ganado_terceros_action' model='ir.actions.act_window'>
+      <field name="name">Terceros</field>
+      <field name="res_model">res.partner</field>
+      <field name="view_mode">kanban,tree,form</field>
+      <field name="help" type="html">
+        <p class="o_view_nocontent_smiling_face">
+          Cree un nuevo tercero
+        </p>
+      </field>
+    </record>
+
+   <menuitem action="ganado_terceros_action"
+             parent="ganado_root"
+             name="Terceros"
+             id="ganado_terceros_menu"/>
 
 </odoo>
