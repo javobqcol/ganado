@@ -1,4 +1,40 @@
 <odoo>
+
+    <record id="anado_animales_view_kanban" model="ir.ui.view">
+        <field name="name">ganado.animal.kanban</field>
+        <field name="model">animal</field>
+        <field name="arch" type="xml">
+            <kanban class="o_kanban_mobile">
+                <field name="id"/>
+                <field name="name"/>
+                <field name="code"/>
+                <field name="nacimiento"/>
+                <field name="edad"/>
+                <field name="sexo"/>
+                <templates>
+                    <t t-name="kanban-box">
+                        <div t-attf-class="oe_kanban_global_click">
+                            <div class="o_kanban_image">
+<!--                                <img alt="Avatar" t-att-src="kanban_image('res.users', 'image_128', record.id.raw_value)"/>-->
+                                <img class="float-right o_ghost_avatar" src="ganado/static/img/vaca.png"/>
+                            </div>
+                            <div class="oe_kanban_details">
+                                <strong><field name="name"/></strong>
+                                <div class="oe_kanban_tags_section">
+                                    <ul>
+                                        <li>Cod: <field name="code"/></li>
+                                        <li>Nacim.: <field name="nacimiento"/> - Edad: <field name="edad"/></li>
+                                        <li>Sexo: <field name="sexo"/></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
    <record id="ganado_animales_view_form" model="ir.ui.view">
       <field name="name">ganado.animales.view.form</field>
       <field name="model">animal</field>
@@ -120,7 +156,7 @@
    <record id="ganado_animal_action" model="ir.actions.act_window">
       <field name="name">Registro de animales</field>
       <field name="res_model">animal</field>
-      <field name="view_mode">tree,form</field>
+      <field name="view_mode">kanban,tree,form</field>
       <field name="search_view_id" ref="ganado_animal_view_search"/>
       <field name="help" type="html">
         <p class="o_view_nocontent_smiling_face">
