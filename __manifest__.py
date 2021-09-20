@@ -1,13 +1,12 @@
 # -*- coding: utf-8 -*-
 {
     'name': "ganado",
-    'version': '0.1',
+    'version': '0.2',
     'sequence': 1,
     'category': 'Human Resources/Ganado',
-    'website': 'https://www.serviporno.com',
+    'website': 'https://www.yourcompany.com',
     'summary': """
-        EL toro a al vaca se la mete y se la saca... 
-        la vaca agradecida se la chupa y se la estira""",
+        prototipo informacion finca ganadera doble proposito""",
 
     'description': """
         Modulo de control de produccion...
@@ -27,6 +26,7 @@
         'security/ganado_security.xml',
         'security/ir.model.access.csv',
         'data/sequence.xml',
+        'data/caricaturas.xml',
         'views/animales.xml',
     ],
     # only loaded in demonstration mode

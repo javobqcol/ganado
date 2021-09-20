@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+      <record id="ternero" model="caricaturas">
+          <field name="name">Ternero</field>
+          <field name="sexo">macho</field>
+          <field name="age" eval="1.0"/>
+          <field name="image_128" type="base64" file="ganado/static/img/ternero.png"/>
+      </record>
+      <record id="ternera" model="caricaturas">
+          <field name="name">Ternera</field>
+          <field name="sexo">hembra</field>
+          <field name="age" eval="1.0"/>
+          <field name="image_128" type="base64" file="ganado/static/img/ternera.png"/>
+      </record>
+      <record id="novillo" model="caricaturas">
+          <field name="name">Novillo</field>
+          <field name="sexo">macho</field>
+          <field name="age" eval="2.0"/>
+          <field name="image_128" type="base64" file="ganado/static/img/novillo.png"/>
+      </record>
+      <record id="novilla" model="caricaturas">
+          <field name="name">Novilla</field>
+          <field name="sexo">hembra</field>
+          <field name="age" eval="2.0"/>
+          <field name="image_128" type="base64" file="ganado/static/img/novilla.png"/>
+      </record>
+      <record id="toro" model="caricaturas">
+          <field name="name">Toro</field>
+          <field name="sexo">macho</field>
+          <field name="age" eval="99.0"/>
+          <field name="image_128" type="base64" file="ganado/static/img/toro.png"/>
+      </record>
+      <record id="vaca" model="caricaturas">
+          <field name="name">Vaca</field>
+          <field name="sexo">hembra</field>
+          <field name="age" eval="99.0"/>
+          <field name="image_128" type="base64" file="ganado/static/img/vaca.png"/>
+      </record>
+      <record id="preñada" model="caricaturas">
+          <field name="name">Vaca preñada</field>
+          <field name="sexo">hembra</field>
+          <field name="image_128" type="base64" file="ganado/static/img/vaca_preñada.png"/>
+      </record>
+</odoo>

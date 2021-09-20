@@ -6,3 +6,4 @@ gv_pr_user,gv_pr_user,model_produccion,,1,1,1,1
 gv_lo_user,gv_lo_user,model_lote,,1,1,1,1
 gv_plp_user,gv_plp_user,model_palpacion,,1,1,1,1
 gv_mi_user,gv_mi_user,model_multi_images,,1,1,1,1
+gv_ca_user,gv_ca_user,model_caricaturas,,1,1,1,1
