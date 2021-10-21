@@ -349,6 +349,7 @@
            </div>
            <group>
              <group>
+               <field name="active" invisible="1"/>
                <field name="date"/>
                <field name="turno"/>
                <field name="reportado" readonly="1" force_save="1"/>
@@ -369,6 +370,7 @@
                  <field name="produccion"/>
                  <field name="desecho"/>
                  <field name="motivo"/>
+                 <field name="active" invisible="1"/>
              </tree>
             </field>
          </sheet>

@@ -1,9 +1,11 @@
 # -*- coding: utf-8 -*-
+import logging
 
 from odoo import models, fields, api, _
 from dateutil.relativedelta import relativedelta
 from datetime import datetime, date, timedelta
 
+_logger = logging.getLogger(__name__)
 
 class Animal(models.Model):
     _name = 'animal'
@@ -79,14 +81,14 @@ class Animal(models.Model):
                 rd = relativedelta(d2, d1)
                 rec.edad = "[%s-%s-%s]" % (str(rd.years).zfill(2), str(rd.months).zfill(2), str(rd.days).zfill(2))
 
-    def name_get(self):
-        res = []
-        for field in self:
-            if field.madre_id:
-                res.append((field.id, '%s / %s' % (field.madre_id.name, field.name)))
-            else:
-                res.append((field.id, '%s' % field.name))
-        return res
+    # def name_get(self):
+    #     res = []
+    #     for field in self:
+    #         if field.madre_id:
+    #             res.append((field.id, '%s / %s' % (field.madre_id.name, field.name)))
+    #         else:
+    #             res.append((field.id, '%s' % field.name))
+    #     return res
 
 
 class MultiImages(models.Model):
@@ -138,6 +140,11 @@ class Produccion(models.Model):
     _name = 'produccion'
     _description = 'Tabla de produccion'
     _order = 'date desc, animal_id desc, turno'
+    _sql_constraints = [
+        ('lote_animal_turno_uniq',
+         'unique(lote_id, animal_id, turno)',
+         'Solo puede haber un ordeño por animal y turno para cada lote')
+    ]
 
     lote_id = fields.Many2one('lote', 'Lote Nro.', ondelete="restrict")
     date = fields.Date(related='lote_id.date', string='Fecha', store=True)
@@ -151,6 +158,7 @@ class Produccion(models.Model):
     produccion_avg = fields.Float(compute='_produccion', store=True, group_operator="avg")
     desecho = fields.Boolean(String="Desecho?", default=False)
     motivo = fields.Char(String="Motivo")
+    active = fields.Boolean(related='lote_id.active', string='Activo', store=True)
 
     @api.depends('produccion')
     def _produccion(self):
@@ -189,6 +197,25 @@ class Lote(models.Model):
     note = fields.Text(placeholder='Espacio para describir cualquier novedad del lote')
     produccion_ids = fields.One2many("produccion", "lote_id", "Detalle")
     recibo = fields.Char(String="Recibo número")
+    active = fields.Boolean(string="Lote activo?", default=True)
+
+    @api.model
+    def default_get(self, default_fields):
+        res = super().default_get(default_fields)
+        det = self.env['lote'].search([], limit=1)
+        turno = 'am'
+        fecha = det.date or fields.Date.today()
+        _logger.info('********Fecha =%s, turno =%s', fecha, det.turno)
+
+        if det.turno == 'am':
+            turno ='pm'
+        else:
+            fecha = det.date + relativedelta(days=1)
+        res.update({
+            'date': fecha,
+            'turno': turno,
+        })
+        return res
 
     @api.depends('produccion_ids.produccion')
     def _total_produccion_lote(self):
