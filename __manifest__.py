@@ -28,6 +28,7 @@
         'data/sequence.xml',
         'data/caricaturas.xml',
         'views/animales.xml',
+        'views/web_asset_backend_template.xml',
     ],
     # only loaded in demonstration mode
     'demo': [
