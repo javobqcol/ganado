@@ -249,7 +249,7 @@
           <field name="name">ganado.produccion.tree</field>
           <field name="model">produccion</field>
           <field name="arch" type="xml">
-            <tree string="Producción">
+            <tree string="Producción" default_order="lote_id, sequence">
               <field name='sequence' invisible="1"/>
               <field name="lote_id"/>
               <field name="date" readonly="1"/>
@@ -366,7 +366,7 @@
                  <field name="note" nolabel="1" placeholder="Espacio para notas internas..."/>
                </group>
                <field name="produccion_ids">
-                 <tree string="Produccion" editable="top">
+                 <tree string="Produccion" editable="top" default_order="sequence">
                      <field name='sequence' widget="handle"/>
                      <field name="turno" invisible="1"/>
                      <field name="animal_id"/>

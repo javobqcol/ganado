@@ -139,7 +139,7 @@ class Partos(models.Model):
 class Produccion(models.Model):
     _name = 'produccion'
     _description = 'Tabla de produccion'
-    _order = 'date desc, animal_id desc, turno'
+    _order = 'date desc, turno, sequence'
     _sql_constraints = [
         ('lote_animal_turno_uniq',
          'unique(lote_id, animal_id, turno)',
