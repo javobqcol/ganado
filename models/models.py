@@ -159,6 +159,9 @@ class Produccion(models.Model):
     desecho = fields.Boolean(String="Desecho?", default=False)
     motivo = fields.Char(String="Motivo")
     active = fields.Boolean(related='lote_id.active', string='Activo', store=True)
+    sequence = fields.Integer(
+        string="Orden del listado"
+    )
 
     @api.depends('produccion')
     def _produccion(self):

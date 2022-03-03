@@ -250,6 +250,7 @@
           <field name="model">produccion</field>
           <field name="arch" type="xml">
             <tree string="Producción">
+              <field name='sequence' invisible="1"/>
               <field name="lote_id"/>
               <field name="date" readonly="1"/>
               <field name="turno" readonly="1"/>
@@ -366,7 +367,8 @@
                </group>
                <field name="produccion_ids">
                  <tree string="Produccion" editable="top">
-                     <field name="turno" readonly="1"/>
+                     <field name='sequence' widget="handle"/>
+                     <field name="turno" invisible="1"/>
                      <field name="animal_id"/>
                      <field name="produccion"/>
                      <field name="desecho"/>
