@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 import logging
 
-from odoo import models, fields, api, _
+from odoo import models, fields, api, _, tools
 from dateutil.relativedelta import relativedelta
 from datetime import datetime, date, timedelta
 
