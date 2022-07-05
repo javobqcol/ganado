@@ -250,7 +250,7 @@
           <field name="model">produccion</field>
           <field name="arch" type="xml">
             <tree string="Producción" default_order="lote_id, sequence">
-              <field name='sequence' invisible="1"/>
+              <field name='sequence' optional="hide"/>
               <field name="lote_id"/>
               <field name="date" readonly="1"/>
               <field name="turno" readonly="1"/>
